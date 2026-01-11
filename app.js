@@ -27,6 +27,15 @@ app.get('/', (req, res) => {
     });
 });
 
+// Kitap listesi sayfası
+app.get('/books', (req, res) => {
+    res.render('index', { 
+        books: books,
+        currentPage: 'books',
+        title: 'Kitap Listesi'
+    });
+});
+
 // Yeni kitap ekleme sayfası (GET)
 app.get('/add-book', (req, res) => {
     res.render('add-book', {
