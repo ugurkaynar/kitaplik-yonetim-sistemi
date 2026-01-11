@@ -1,0 +1,120 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title mb-0">
+                    <i class="bi bi-envelope"></i> İletişim
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="lead mb-4">
+                    Bize ulaşmak için aşağıdaki formu doldurun. Size en kısa sürede geri dönüş yapacağız.
+                </p>
+                
+                <form id="contactForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ad" class="form-label">
+                                <i class="bi bi-person"></i> Ad <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="ad" 
+                                name="ad" 
+                                placeholder="Adınızı giriniz"
+                                required
+                                minlength="2"
+                                maxlength="50"
+                            >
+                            <div class="invalid-feedback">
+                                Lütfen geçerli bir ad giriniz (en az 2 karakter).
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="soyad" class="form-label">
+                                <i class="bi bi-person"></i> Soyad <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="soyad" 
+                                name="soyad" 
+                                placeholder="Soyadınızı giriniz"
+                                required
+                                minlength="2"
+                                maxlength="50"
+                            >
+                            <div class="invalid-feedback">
+                                Lütfen geçerli bir soyad giriniz (en az 2 karakter).
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="mesaj" class="form-label">
+                            <i class="bi bi-chat-left-text"></i> Mesaj <span class="text-danger">*</span>
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            id="mesaj" 
+                            name="mesaj" 
+                            rows="5"
+                            placeholder="Mesajınızı buraya yazınız..."
+                            required
+                            minlength="10"
+                            maxlength="1000"
+                        ></textarea>
+                        <div class="form-text">
+                            Minimum 10, maksimum 1000 karakter.
+                        </div>
+                        <div class="invalid-feedback">
+                            Lütfen en az 10 karakterlik bir mesaj giriniz.
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="bi bi-arrow-counterclockwise"></i> Temizle
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Gönder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // HTML5 form validasyonu
+    (function() {
+        'use strict';
+        const form = document.getElementById('contactForm');
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            if (!form.checkValidity()) {
+                event.stopPropagation();
+                form.classList.add('was-validated');
+                return;
+            }
+            
+            // Form geçerliyse sayfayı yenile
+            form.classList.add('was-validated');
+            window.location.reload();
+        }, false);
+        
+        // Reset butonu için
+        form.addEventListener('reset', function() {
+            form.classList.remove('was-validated');
+        });
+    })();
+</script>
+
+<%- include('partials/footer') %>

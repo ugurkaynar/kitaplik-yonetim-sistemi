@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-danger">
+            <div class="card-body text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-exclamation-triangle text-danger" style="font-size: 5rem;"></i>
+                </div>
+                
+                <h1 class="display-1 fw-bold text-danger mb-3">404</h1>
+                
+                <h2 class="mb-4">Aradığınız sayfa bulunamadı</h2>
+                
+                <p class="lead text-muted mb-4">
+                    Üzgünüz, aradığınız sayfa mevcut değil veya taşınmış olabilir.
+                </p>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="/" class="btn btn-primary btn-lg">
+                        <i class="bi bi-house-door"></i> Ana Sayfaya Dön
+                    </a>
+                    <button onclick="history.back()" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Geri Dön
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                Yardıma mı ihtiyacınız var? <a href="/contact">İletişim</a> sayfasından bize ulaşabilirsiniz.
+            </p>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

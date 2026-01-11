@@ -1,0 +1,133 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h2 class="card-title mb-0">
+                    <i class="bi bi-pencil-square"></i> Kitap Düzenle
+                </h2>
+            </div>
+            <div class="card-body">
+                <form action="/edit/<%= book.id %>" method="POST" novalidate>
+                    <div class="mb-3">
+                        <label for="ad" class="form-label">
+                            <i class="bi bi-book"></i> Kitap Adı <span class="text-danger">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="ad" 
+                            name="ad" 
+                            placeholder="Kitap adını giriniz"
+                            value="<%= book.ad %>"
+                            required
+                            minlength="2"
+                            maxlength="200"
+                        >
+                        <div class="invalid-feedback">
+                            Lütfen geçerli bir kitap adı giriniz (en az 2 karakter).
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="yazar" class="form-label">
+                            <i class="bi bi-person"></i> Yazar <span class="text-danger">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="yazar" 
+                            name="yazar" 
+                            placeholder="Yazar adını giriniz"
+                            value="<%= book.yazar %>"
+                            required
+                            minlength="2"
+                            maxlength="100"
+                        >
+                        <div class="invalid-feedback">
+                            Lütfen geçerli bir yazar adı giriniz (en az 2 karakter).
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tür" class="form-label">
+                            <i class="bi bi-tag"></i> Tür <span class="text-danger">*</span>
+                        </label>
+                        <select 
+                            class="form-select" 
+                            id="tür" 
+                            name="tür" 
+                            required
+                        >
+                            <option value="">Tür seçiniz</option>
+                            <option value="Roman" <%= book.tür === 'Roman' ? 'selected' : '' %>>Roman</option>
+                            <option value="Bilim Kurgu" <%= book.tür === 'Bilim Kurgu' ? 'selected' : '' %>>Bilim Kurgu</option>
+                            <option value="Fantastik" <%= book.tür === 'Fantastik' ? 'selected' : '' %>>Fantastik</option>
+                            <option value="Biyografi" <%= book.tür === 'Biyografi' ? 'selected' : '' %>>Biyografi</option>
+                            <option value="Tarih" <%= book.tür === 'Tarih' ? 'selected' : '' %>>Tarih</option>
+                            <option value="Felsefe" <%= book.tür === 'Felsefe' ? 'selected' : '' %>>Felsefe</option>
+                            <option value="Kişisel Gelişim" <%= book.tür === 'Kişisel Gelişim' ? 'selected' : '' %>>Kişisel Gelişim</option>
+                            <option value="Çocuk Kitabı" <%= book.tür === 'Çocuk Kitabı' ? 'selected' : '' %>>Çocuk Kitabı</option>
+                            <option value="Diğer" <%= book.tür === 'Diğer' ? 'selected' : '' %>>Diğer</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Lütfen bir tür seçiniz.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="yayınYılı" class="form-label">
+                            <i class="bi bi-calendar"></i> Yayın Yılı <span class="text-danger">*</span>
+                        </label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="yayınYılı" 
+                            name="yayınYılı" 
+                            placeholder="Yayın yılını giriniz (örn: 2023)"
+                            value="<%= book.yayınYılı %>"
+                            required
+                            min="1000"
+                            max="<%= new Date().getFullYear() + 1 %>"
+                            step="1"
+                        >
+                        <div class="invalid-feedback">
+                            Lütfen geçerli bir yayın yılı giriniz (1000 - <%= new Date().getFullYear() + 1 %>).
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> İptal
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-check-circle"></i> Güncelle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // HTML5 form validasyonu
+    (function() {
+        'use strict';
+        const forms = document.querySelectorAll('form[novalidate]');
+        
+        Array.from(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+
+<%- include('partials/footer') %>
