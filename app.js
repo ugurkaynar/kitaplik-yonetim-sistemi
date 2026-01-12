@@ -20,8 +20,7 @@ let books = [];
 
 // Ana sayfa rotası
 app.get('/', (req, res) => {
-    res.render('index', { 
-        books: books,
+    res.render('home', {
         currentPage: 'home',
         title: 'Ana Sayfa'
     });
@@ -29,10 +28,22 @@ app.get('/', (req, res) => {
 
 // Kitap listesi sayfası
 app.get('/books', (req, res) => {
+    const { search } = req.query;
+    let filteredBooks = books;
+
+    if (search) {
+        const searchLower = search.trim().toLowerCase();
+        filteredBooks = books.filter(book => 
+            (book.ad && book.ad.toLowerCase().includes(searchLower)) || 
+            (book.yazar && book.yazar.toLowerCase().includes(searchLower))
+        );
+    }
+
     res.render('index', { 
-        books: books,
+        books: filteredBooks,
         currentPage: 'books',
-        title: 'Kitap Listesi'
+        title: 'Kitap Listesi',
+        searchQuery: search || ''
     });
 });
 

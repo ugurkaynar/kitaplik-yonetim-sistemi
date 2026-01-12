@@ -19,7 +19,7 @@
                             class="form-control" 
                             id="ad" 
                             name="ad" 
-                            placeholder="Kitap adını giriniz"
+                            placeholder="Kitap Adını giriniz..."
                             value="<%= book.ad %>"
                             required
                             minlength="2"
@@ -39,7 +39,7 @@
                             class="form-control" 
                             id="yazar" 
                             name="yazar" 
-                            placeholder="Yazar adını giriniz"
+                            placeholder="Yazar Adını giriniz..."
                             value="<%= book.yazar %>"
                             required
                             minlength="2"
@@ -60,7 +60,7 @@
                             name="tür" 
                             required
                         >
-                            <option value="">Tür seçiniz</option>
+                            <option value="">Tür seçiniz...</option>
                             <option value="Roman" <%= book.tür === 'Roman' ? 'selected' : '' %>>Roman</option>
                             <option value="Bilim Kurgu" <%= book.tür === 'Bilim Kurgu' ? 'selected' : '' %>>Bilim Kurgu</option>
                             <option value="Fantastik" <%= book.tür === 'Fantastik' ? 'selected' : '' %>>Fantastik</option>
@@ -85,7 +85,7 @@
                             class="form-control" 
                             id="yayınYılı" 
                             name="yayınYılı" 
-                            placeholder="Yayın yılını giriniz (örn: 2023)"
+                            placeholder="Yayın Yılını giriniz (örn: 2023)..."
                             value="<%= book.yayınYılı %>"
                             required
                             min="1000"
@@ -98,11 +98,11 @@
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="/" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> İptal
+                        <a href="/" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-arrow-left-circle"></i> Vazgeç
                         </a>
-                        <button type="submit" class="btn btn-warning">
-                            <i class="bi bi-check-circle"></i> Güncelle
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="bi bi-check-circle"></i> Kaydet
                         </button>
                     </div>
                 </form>
