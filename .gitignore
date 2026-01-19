@@ -1,0 +1,14 @@
+# Bağımlılıklar (Bu klasör çok büyüktür, asla yüklenmemeli)
+node_modules/
+
+# Gizli bilgiler (Veritabanı şifreleri burada olacak)
+.env
+
+# İşletim sistemi dosyaları
+.DS_Store
+Thumbs.db
+
+# Log dosyaları
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

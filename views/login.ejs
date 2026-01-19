@@ -1,0 +1,299 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7 col-sm-9">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="animation: fadeIn 0.5s ease-in;">
+            <div class="card-header text-white p-4 text-center" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                <div class="mb-3">
+                    <i class="bi bi-box-arrow-in-right display-1"></i>
+                </div>
+                <h2 class="card-title fw-bold mb-1">Giriş Yap</h2>
+                <p class="mb-0 opacity-75">Hesabınıza giriş yapın</p>
+            </div>
+            <div class="card-body p-5 bg-light">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <% if (error === 'invalid') { %>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>Hata!</strong> Kullanıcı adı veya şifre hatalı.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } else if (error === 'empty') { %>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>Uyarı!</strong> Lütfen tüm alanları doldurunuz.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } %>
+                <% } %>
+
+                <% if (typeof success !== 'undefined' && success === 'registered') { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        <strong>Başarılı!</strong> Kayıt işleminiz tamamlandı. Şimdi giriş yapabilirsiniz.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+
+                <!-- Giriş Formu -->
+                <form action="/login" method="POST" novalidate id="loginForm">
+                    <div class="mb-4">
+                        <label for="kullaniciAdi" class="form-label fw-semibold text-dark">
+                            <i class="bi bi-person-fill text-success me-2"></i> Kullanıcı Adı <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-white">
+                                <i class="bi bi-person text-muted"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="kullaniciAdi" 
+                                name="kullaniciAdi" 
+                                placeholder="Kullanıcı adınızı giriniz..."
+                                required
+                                minlength="3"
+                                maxlength="50"
+                                autocomplete="username"
+                            >
+                        </div>
+                        <div class="invalid-feedback d-block">
+                            Lütfen kullanıcı adınızı giriniz.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="sifre" class="form-label fw-semibold text-dark">
+                            <i class="bi bi-lock-fill text-success me-2"></i> Şifre <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-white">
+                                <i class="bi bi-lock text-muted"></i>
+                            </span>
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="sifre" 
+                                name="sifre" 
+                                placeholder="Şifrenizi giriniz..."
+                                required
+                                minlength="4"
+                                maxlength="100"
+                                autocomplete="current-password"
+                            >
+                        </div>
+                        <div class="invalid-feedback d-block">
+                            Lütfen şifrenizi giriniz.
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-lg rounded-pill shadow-sm text-white fw-semibold" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); transition: transform 0.2s;">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Giriş Yap
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Şık Ayırıcı -->
+                <div class="position-relative my-5">
+                    <hr class="my-0">
+                    <div class="position-absolute top-50 start-50 translate-middle bg-light px-3">
+                        <span class="text-muted small">veya</span>
+                    </div>
+                </div>
+
+                <!-- Kayıt Ol Butonu -->
+                <div class="text-center mb-3">
+                    <button 
+                        class="btn btn-outline-primary btn-lg rounded-pill px-4" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#registerForm" 
+                        aria-expanded="false" 
+                        aria-controls="registerForm"
+                        id="registerToggleBtn"
+                    >
+                        <i class="bi bi-person-plus me-2"></i> Hesabınız yok mu? Hemen Kayıt Olun
+                    </button>
+                </div>
+
+                <!-- Kayıt Formu (Collapse) -->
+                <div class="collapse" id="registerForm">
+                    <div class="mt-4 p-4 bg-white rounded-4 border border-primary border-opacity-25">
+                        <h5 class="text-center mb-4 text-primary">
+                            <i class="bi bi-person-plus me-2"></i> Yeni Hesap Oluştur
+                        </h5>
+                        
+                        <% if (typeof error !== 'undefined' && error === 'exists') { %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="bi bi-x-circle-fill me-2"></i>
+                                <strong>Hata!</strong> Bu kullanıcı adı zaten kullanılıyor. Lütfen farklı bir kullanıcı adı seçiniz.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <% } %>
+
+                        <form action="/register" method="POST" novalidate id="registerFormElement">
+                            <div class="mb-3">
+                                <label for="registerKullaniciAdi" class="form-label fw-semibold text-dark">
+                                    <i class="bi bi-person-fill text-primary me-2"></i> Kullanıcı Adı <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">
+                                        <i class="bi bi-person text-muted"></i>
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="registerKullaniciAdi" 
+                                        name="kullaniciAdi" 
+                                        placeholder="Kullanıcı adınızı giriniz..."
+                                        required
+                                        minlength="3"
+                                        maxlength="50"
+                                        autocomplete="username"
+                                    >
+                                </div>
+                                <div class="invalid-feedback d-block">
+                                    Lütfen geçerli bir kullanıcı adı giriniz (en az 3 karakter).
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="registerSifre" class="form-label fw-semibold text-dark">
+                                    <i class="bi bi-lock-fill text-primary me-2"></i> Şifre <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white">
+                                        <i class="bi bi-lock text-muted"></i>
+                                    </span>
+                                    <input 
+                                        type="password" 
+                                        class="form-control" 
+                                        id="registerSifre" 
+                                        name="sifre" 
+                                        placeholder="Şifrenizi giriniz..."
+                                        required
+                                        minlength="4"
+                                        maxlength="100"
+                                        autocomplete="new-password"
+                                    >
+                                </div>
+                                <div class="invalid-feedback d-block">
+                                    Lütfen geçerli bir şifre giriniz (en az 4 karakter).
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-lg rounded-pill shadow-sm text-white fw-semibold" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: transform 0.2s;">
+                                    <i class="bi bi-check-circle-fill me-2"></i> Kayıt Ol
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .input-group-text {
+        transition: background-color 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #11998e;
+        box-shadow: 0 0 0 0.2rem rgba(17, 153, 142, 0.25);
+    }
+    
+    #registerForm .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .form-control:focus + .input-group-text,
+    .form-control:focus ~ .input-group-text {
+        background-color: #f8f9fa;
+    }
+
+    .collapse {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .collapse.show {
+        animation: slideDown 0.3s ease-in-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    // HTML5 form validasyonu
+    (function() {
+        'use strict';
+        const forms = document.querySelectorAll('form[novalidate]');
+        
+        Array.from(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+
+    // Collapse açıldığında kayıt formuna scroll et
+    const registerForm = document.getElementById('registerForm');
+    const registerToggleBtn = document.getElementById('registerToggleBtn');
+    
+    registerForm.addEventListener('shown.bs.collapse', function () {
+        registerForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.getElementById('registerKullaniciAdi')?.focus();
+    });
+
+    // URL'de error=exists varsa kayıt formunu otomatik aç
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error') === 'exists' || urlParams.get('error') === 'empty') {
+        const collapse = new bootstrap.Collapse(document.getElementById('registerForm'), {
+            toggle: true
+        });
+    }
+</script>
+
+<%- include('partials/footer') %>
