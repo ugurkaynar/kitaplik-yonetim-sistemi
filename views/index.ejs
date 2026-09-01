@@ -60,17 +60,20 @@
                                         <td><strong class="text-dark"><%= book.ad %></strong></td>
                                         <td class="text-secondary"><%= book.yazar %></td>
                                         <td>
-                                            <span class="badge bg-info bg-opacity-10 text-info border border-info rounded-pill px-3"><%= book.tür %></span>
+                                            <span class="badge bg-info bg-opacity-10 text-info border border-info rounded-pill px-3"><%= book.tur %></span>
                                         </td>
-                                        <td class="text-secondary"><%= book.yayınYılı || book.yayın_yılı %></td>
+                                        <td class="text-secondary"><%= book.yayinYili %></td>
                                         <td class="text-center pe-4">
-                                            <div class="btn-group shadow-sm" role="group">
-                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="editBook('<%= book.id %>')" title="Düzenle">
+                                            <div class="btn-group shadow-sm" role="group" aria-label="Kitap işlemleri">
+                                                <a href="/edit/<%= book.id %>" class="btn btn-outline-primary btn-sm" title="Düzenle">
                                                     <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteBook('<%= book.id %>')" title="Sil">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
+                                                </a>
+                                                <form action="/delete/<%= book.id %>" method="POST" class="d-inline"
+                                                      onsubmit="return confirm('Bu kitabı silmek istediğinizden emin misiniz?');">
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Sil">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -105,17 +108,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function editBook(id) {
-        window.location.href = `/edit/${id}`;
-    }
-    
-    function deleteBook(id) {
-        if (confirm('Bu kitabı silmek istediğinizden emin misiniz?')) {
-            window.location.href = `/delete/${id}`;
-        }
-    }
-</script>
 
 <%- include('partials/footer') %>

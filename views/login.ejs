@@ -24,6 +24,18 @@
                             <strong>Uyarı!</strong> Lütfen tüm alanları doldurunuz.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                    <% } else if (error === 'format') { %>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <strong>Uyarı!</strong> Kullanıcı adı 3-50 karakter, şifre en az 4 karakter olmalıdır.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <% } else if (error === 'auth') { %>
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <i class="bi bi-lock-fill me-2"></i>
+                            <strong>Bilgi!</strong> Bu sayfayı görüntülemek için önce giriş yapmalısınız.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     <% } %>
                 <% } %>
 
@@ -289,7 +301,7 @@
 
     // URL'de error=exists varsa kayıt formunu otomatik aç
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('error') === 'exists' || urlParams.get('error') === 'empty') {
+    if (urlParams.get('error') === 'exists' || urlParams.get('error') === 'empty' || urlParams.get('error') === 'format') {
         const collapse = new bootstrap.Collapse(document.getElementById('registerForm'), {
             toggle: true
         });

@@ -9,6 +9,14 @@
                 </h2>
             </div>
             <div class="card-body">
+                <% if (typeof error !== 'undefined' && error === 'invalid') { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Hata!</strong> Lütfen tüm alanları geçerli bilgilerle doldurunuz.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+
                 <form action="/edit/<%= book.id %>" method="POST" novalidate>
                     <div class="mb-3">
                         <label for="ad" class="form-label">
@@ -51,25 +59,25 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="tür" class="form-label">
+                        <label for="tur" class="form-label">
                             <i class="bi bi-tag"></i> Tür <span class="text-danger">*</span>
                         </label>
                         <select 
                             class="form-select" 
-                            id="tür" 
-                            name="tür" 
+                            id="tur" 
+                            name="tur" 
                             required
                         >
                             <option value="">Tür seçiniz...</option>
-                            <option value="Roman" <%= book.tür === 'Roman' ? 'selected' : '' %>>Roman</option>
-                            <option value="Bilim Kurgu" <%= book.tür === 'Bilim Kurgu' ? 'selected' : '' %>>Bilim Kurgu</option>
-                            <option value="Fantastik" <%= book.tür === 'Fantastik' ? 'selected' : '' %>>Fantastik</option>
-                            <option value="Biyografi" <%= book.tür === 'Biyografi' ? 'selected' : '' %>>Biyografi</option>
-                            <option value="Tarih" <%= book.tür === 'Tarih' ? 'selected' : '' %>>Tarih</option>
-                            <option value="Felsefe" <%= book.tür === 'Felsefe' ? 'selected' : '' %>>Felsefe</option>
-                            <option value="Kişisel Gelişim" <%= book.tür === 'Kişisel Gelişim' ? 'selected' : '' %>>Kişisel Gelişim</option>
-                            <option value="Çocuk Kitabı" <%= book.tür === 'Çocuk Kitabı' ? 'selected' : '' %>>Çocuk Kitabı</option>
-                            <option value="Diğer" <%= book.tür === 'Diğer' ? 'selected' : '' %>>Diğer</option>
+                            <option value="Roman" <%= book.tur === 'Roman' ? 'selected' : '' %>>Roman</option>
+                            <option value="Bilim Kurgu" <%= book.tur === 'Bilim Kurgu' ? 'selected' : '' %>>Bilim Kurgu</option>
+                            <option value="Fantastik" <%= book.tur === 'Fantastik' ? 'selected' : '' %>>Fantastik</option>
+                            <option value="Biyografi" <%= book.tur === 'Biyografi' ? 'selected' : '' %>>Biyografi</option>
+                            <option value="Tarih" <%= book.tur === 'Tarih' ? 'selected' : '' %>>Tarih</option>
+                            <option value="Felsefe" <%= book.tur === 'Felsefe' ? 'selected' : '' %>>Felsefe</option>
+                            <option value="Kişisel Gelişim" <%= book.tur === 'Kişisel Gelişim' ? 'selected' : '' %>>Kişisel Gelişim</option>
+                            <option value="Çocuk Kitabı" <%= book.tur === 'Çocuk Kitabı' ? 'selected' : '' %>>Çocuk Kitabı</option>
+                            <option value="Diğer" <%= book.tur === 'Diğer' ? 'selected' : '' %>>Diğer</option>
                         </select>
                         <div class="invalid-feedback">
                             Lütfen bir tür seçiniz.
@@ -77,16 +85,16 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="yayınYılı" class="form-label">
+                        <label for="yayinYili" class="form-label">
                             <i class="bi bi-calendar"></i> Yayın Yılı <span class="text-danger">*</span>
                         </label>
                         <input 
                             type="number" 
                             class="form-control" 
-                            id="yayınYılı" 
-                            name="yayınYılı" 
+                            id="yayinYili" 
+                            name="yayinYili" 
                             placeholder="Yayın Yılını giriniz (örn: 2023)..."
-                            value="<%= book.yayınYılı %>"
+                            value="<%= book.yayinYili %>"
                             required
                             min="1000"
                             max="<%= new Date().getFullYear() + 1 %>"
