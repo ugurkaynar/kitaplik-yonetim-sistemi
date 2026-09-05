@@ -1,6 +1,7 @@
 # 📚 Library Management System — Kitaplık Yönetim Sistemi
 
 A full-stack web application for managing a personal book library. Users can register, log in, and manage their book collection with full CRUD operations, search, and persistent storage.
+> 🔗 **Live Demo:** [kitaplik-yonetim-sistemi.onrender.com](https://kitaplik-yonetim-sistemi.onrender.com) — demo account: `demo` / `demo1234`
 
 ![Kitap Listesi](docs/screenshot-books.png)
 
