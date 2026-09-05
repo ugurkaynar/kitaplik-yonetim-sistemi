@@ -13,6 +13,9 @@
   "author": "Uğur Kaynar",
   "license": "MIT",
   "type": "commonjs",
+    "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.11.1",
