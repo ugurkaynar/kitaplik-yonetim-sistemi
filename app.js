@@ -9,10 +9,6 @@ const bcrypt = require('bcryptjs');
 const db = require('./db');
 const demoVerisiYukle = require('./seed');
 
-// Veritabanı boşsa örnek verileri ve demo hesabı otomatik oluştur
-// (deploy platformlarında dosya sistemi her yeni sürümde sıfırlanır)
-demoVerisiYukle();
-
 const SAYFA_BOYUTU = (() => {
     const n = Number.parseInt(process.env.PAGE_SIZE || '8', 10);
     return Number.isInteger(n) && n > 0 && n <= 100 ? n : 8;
@@ -586,6 +582,10 @@ app.use((err, req, res, next) => {
 });
 
 if (require.main === module) {
+    // Veritabanı boşsa örnek verileri ve demo hesabı otomatik oluştur
+    // (deploy platformlarında dosya sistemi her yeni sürümde sıfırlanır)
+    demoVerisiYukle();
+
     if (!process.env.SESSION_SECRET) {
         console.warn('Uyarı: SESSION_SECRET tanımlı değil. .env dosyasına uzun rastgele bir anahtar yazın.');
     }
