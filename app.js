@@ -7,6 +7,11 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 
 const db = require('./db');
+const demoVerisiYukle = require('./seed');
+
+// Veritabanı boşsa örnek verileri ve demo hesabı otomatik oluştur
+// (deploy platformlarında dosya sistemi her yeni sürümde sıfırlanır)
+demoVerisiYukle();
 
 const SAYFA_BOYUTU = (() => {
     const n = Number.parseInt(process.env.PAGE_SIZE || '8', 10);
