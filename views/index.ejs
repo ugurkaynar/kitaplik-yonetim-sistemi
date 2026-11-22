@@ -1,4 +1,18 @@
 <%- include('partials/header') %>
+<%
+const mesajlar = {
+    added: 'Kitap başarıyla eklendi.',
+    updated: 'Kitap başarıyla güncellendi.',
+    deleted: 'Kitap silindi.'
+};
+function sayfaLink(p) {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('search', searchQuery);
+    if (p > 1) params.set('page', String(p));
+    const q = params.toString();
+    return q ? '/books?' + q : '/books';
+}
+%>
 
 <div class="row mb-4">
     <div class="col-12">
@@ -35,10 +49,23 @@
             </div>
             
             <div class="card-body px-4">
+                <% if (success && mesajlar[success]) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i><%= mesajlar[success] %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+                    </div>
+                <% } %>
+                <% if (!user) { %>
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Kitap eklemek, düzenlemek ve silmek için <a href="/login" class="alert-link">giriş yapın</a>. Listeyi herkes görüntüleyebilir.
+                    </div>
+                <% } %>
                 <% if (books && books.length > 0) { %>
                     <div class="mb-3 d-flex justify-content-between align-items-center">
                         <span class="badge bg-light text-dark border rounded-pill fs-6 px-3 py-2">
-                            <i class="bi bi-collection me-1"></i> Toplam Kitap: <strong><%= books.length %></strong>
+                            <i class="bi bi-collection me-1"></i>
+                            <%= searchQuery ? 'Sonuç' : 'Toplam Kitap' %>: <strong><%= totalBooks %></strong>
                         </span>
                     </div>
                     <div class="table-responsive rounded-3 shadow-sm">
@@ -64,12 +91,15 @@
                                         </td>
                                         <td class="text-secondary"><%= book.yayinYili %></td>
                                         <td class="text-center pe-4">
-                                            <div class="btn-group shadow-sm" role="group" aria-label="Kitap işlemleri">
+                                            <div class="d-inline-flex gap-1" role="group" aria-label="Kitap işlemleri">
                                                 <a href="/edit/<%= book.id %>" class="btn btn-outline-primary btn-sm" title="Düzenle">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                                 <form action="/delete/<%= book.id %>" method="POST" class="d-inline"
                                                       onsubmit="return confirm('Bu kitabı silmek istediğinizden emin misiniz?');">
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <input type="hidden" name="search" value="<%= searchQuery %>">
+                                                    <input type="hidden" name="page" value="<%= page %>">
                                                     <button type="submit" class="btn btn-outline-danger btn-sm" title="Sil">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
@@ -103,6 +133,30 @@
                             <i class="bi bi-plus-lg me-2"></i> İlk Kitabınızı Ekleyin
                         </a>
                     </div>
+                <% } %>
+                <% if (totalPages > 1) { %>
+                    <nav class="mt-4" aria-label="Sayfalama">
+                        <ul class="pagination justify-content-center mb-2">
+                            <% if (page > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="<%= sayfaLink(page - 1) %>">Önceki</a>
+                                </li>
+                            <% } %>
+                            <% const pencereBas = Math.max(1, page - 2); %>
+                            <% const pencereBit = Math.min(totalPages, page + 2); %>
+                            <% for (let p = pencereBas; p <= pencereBit; p++) { %>
+                                <li class="page-item <%= p === page ? 'active' : '' %>">
+                                    <a class="page-link" href="<%= sayfaLink(p) %>" <%= p === page ? 'aria-current="page"' : '' %>><%= p %></a>
+                                </li>
+                            <% } %>
+                            <% if (page < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="<%= sayfaLink(page + 1) %>">Sonraki</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                        <p class="text-center text-muted mb-0">Sayfa <%= page %> / <%= totalPages %></p>
+                    </nav>
                 <% } %>
             </div>
         </div>

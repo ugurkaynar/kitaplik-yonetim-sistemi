@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<% const hedef = typeof nextPath !== 'undefined' ? nextPath : '/'; %>
 
 <div class="row justify-content-center">
     <div class="col-lg-5 col-md-7 col-sm-9">
@@ -27,7 +28,7 @@
                     <% } else if (error === 'format') { %>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            <strong>Uyarı!</strong> Kullanıcı adı 3-50 karakter, şifre en az 4 karakter olmalıdır.
+                            <strong>Uyarı!</strong> Kullanıcı adı 3-50 karakter, şifre 4-72 karakter olmalıdır.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <% } else if (error === 'auth') { %>
@@ -47,8 +48,9 @@
                     </div>
                 <% } %>
 
-                <!-- Giriş Formu -->
                 <form action="/login" method="POST" novalidate id="loginForm">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="next" value="<%= hedef %>">
                     <div class="mb-4">
                         <label for="kullaniciAdi" class="form-label fw-semibold text-dark">
                             <i class="bi bi-person-fill text-success me-2"></i> Kullanıcı Adı <span class="text-danger">*</span>
@@ -69,7 +71,7 @@
                                 autocomplete="username"
                             >
                         </div>
-                        <div class="invalid-feedback d-block">
+                        <div class="invalid-feedback">
                             Lütfen kullanıcı adınızı giriniz.
                         </div>
                     </div>
@@ -90,11 +92,11 @@
                                 placeholder="Şifrenizi giriniz..."
                                 required
                                 minlength="4"
-                                maxlength="100"
+                                maxlength="72"
                                 autocomplete="current-password"
                             >
                         </div>
-                        <div class="invalid-feedback d-block">
+                        <div class="invalid-feedback">
                             Lütfen şifrenizi giriniz.
                         </div>
                     </div>
@@ -106,7 +108,6 @@
                     </div>
                 </form>
 
-                <!-- Şık Ayırıcı -->
                 <div class="position-relative my-5">
                     <hr class="my-0">
                     <div class="position-absolute top-50 start-50 translate-middle bg-light px-3">
@@ -114,7 +115,6 @@
                     </div>
                 </div>
 
-                <!-- Kayıt Ol Butonu -->
                 <div class="text-center mb-3">
                     <button 
                         class="btn btn-outline-primary btn-lg rounded-pill px-4" 
@@ -129,7 +129,6 @@
                     </button>
                 </div>
 
-                <!-- Kayıt Formu (Collapse) -->
                 <div class="collapse" id="registerForm">
                     <div class="mt-4 p-4 bg-white rounded-4 border border-primary border-opacity-25">
                         <h5 class="text-center mb-4 text-primary">
@@ -145,6 +144,8 @@
                         <% } %>
 
                         <form action="/register" method="POST" novalidate id="registerFormElement">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="next" value="<%= hedef %>">
                             <div class="mb-3">
                                 <label for="registerKullaniciAdi" class="form-label fw-semibold text-dark">
                                     <i class="bi bi-person-fill text-primary me-2"></i> Kullanıcı Adı <span class="text-danger">*</span>
@@ -165,7 +166,7 @@
                                         autocomplete="username"
                                     >
                                 </div>
-                                <div class="invalid-feedback d-block">
+                                <div class="invalid-feedback">
                                     Lütfen geçerli bir kullanıcı adı giriniz (en az 3 karakter).
                                 </div>
                             </div>
@@ -186,11 +187,11 @@
                                         placeholder="Şifrenizi giriniz..."
                                         required
                                         minlength="4"
-                                        maxlength="100"
+                                        maxlength="72"
                                         autocomplete="new-password"
                                     >
                                 </div>
-                                <div class="invalid-feedback d-block">
+                                <div class="invalid-feedback">
                                     Lütfen geçerli bir şifre giriniz (en az 4 karakter).
                                 </div>
                             </div>
@@ -273,7 +274,6 @@
 </style>
 
 <script>
-    // HTML5 form validasyonu
     (function() {
         'use strict';
         const forms = document.querySelectorAll('form[novalidate]');
@@ -290,7 +290,6 @@
         });
     })();
 
-    // Collapse açıldığında kayıt formuna scroll et
     const registerForm = document.getElementById('registerForm');
     const registerToggleBtn = document.getElementById('registerToggleBtn');
     
@@ -299,12 +298,12 @@
         document.getElementById('registerKullaniciAdi')?.focus();
     });
 
-    // URL'de error=exists varsa kayıt formunu otomatik aç
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('error') === 'exists' || urlParams.get('error') === 'empty' || urlParams.get('error') === 'format') {
+    if (urlParams.get('form') === 'register' || urlParams.get('error') === 'exists') {
         const collapse = new bootstrap.Collapse(document.getElementById('registerForm'), {
-            toggle: true
+            toggle: false
         });
+        collapse.show();
     }
 </script>
 

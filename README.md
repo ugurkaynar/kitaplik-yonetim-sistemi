@@ -2,21 +2,17 @@
 
 A full-stack web application for managing a personal book library. Users can register, log in, and manage their book collection with full CRUD operations, search, and persistent storage.
 
-![Kitap Listesi](docs/screenshot-books.png)
-
 ## ✨ Features
 
 - 🔐 **User authentication** — register & login with bcrypt-hashed passwords and session management
 - 🛡️ **Route protection** — book management routes require authentication (custom middleware)
 - 📖 **Full CRUD** — add, edit, delete and list books
-- 🔎 **Live search** — filter books by title or author (case-insensitive)
+- 🔎 **Search** — filter books by title, author, or genre (Turkish case-insensitive)
+- 📄 **Pagination** — book list is split into pages
 - ✅ **Server-side validation** — all form data validated on both client and server
-- 💾 **Persistent storage** — SQLite database (WAL mode), data survives server restarts
-- 🎨 **Responsive UI** — Bootstrap 5 with custom styling, 404 & error pages
-
-| Giriş / Login | Ana Sayfa / Home |
-|:---:|:---:|
-| ![Login](docs/screenshot-login.png) | ![Home](docs/screenshot-home.png) |
+- ✉️ **Contact form** — messages are stored in SQLite
+- 💾 **Persistent storage** — SQLite database (WAL mode) for books, users, messages, and sessions
+- 🎨 **Responsive UI** — Bootstrap 5 with custom styling, 403 / 404 / 500 pages
 
 ## 🛠️ Tech Stack
 
@@ -47,6 +43,7 @@ npm install
 
 # 3) Create your environment file
 cp .env.example .env
+#    Windows PowerShell: Copy-Item .env.example .env
 #    → edit SESSION_SECRET with any long random string
 
 # 4) (Optional) Load sample data + demo account
@@ -82,23 +79,27 @@ Password: demo1234
 │   ├── add-book.ejs     # New book form
 │   ├── edit-book.ejs    # Edit book form
 │   ├── login.ejs        # Login & register forms
-│   └── 404.ejs          # Not-found page
-├── public/              # Static assets
-└── docs/                # Screenshots
+│   ├── about.ejs        # About page
+│   ├── contact.ejs      # Contact form
+│   └── 404.ejs          # 403 / 404 / 500 page
+├── tests/app.test.js    # HTTP flow tests
+└── public/              # Static assets
 ```
 
 ## 🔒 Security Notes
 
-- Passwords are **never stored in plain text** — hashed with bcrypt (10 rounds)
-- Session cookie is `httpOnly` (protected from XSS cookie theft)
-- All mutating routes (`add / edit / delete`) require an authenticated session
-- Book deletions use **POST** forms (not GET links) with a confirmation dialog
+- Passwords are **never stored in plain text** — hashed with bcrypt (10 rounds, max 72 characters)
+- Session cookie is `httpOnly` and `sameSite=lax` (protected from XSS cookie theft and most CSRF)
+- Sessions are stored in SQLite and regenerated on login
+- State-changing forms include a CSRF token
+- All mutating book routes (`add / edit / delete`) require an authenticated session
+- Book deletions use **POST** forms with a confirmation dialog
 - Secrets (session key) are loaded from `.env`, which is gitignored
 - SQL queries use **prepared statements** (protection against SQL injection)
 
 ## 🗺️ Roadmap
 
-- [ ] Pagination for large libraries
+- [x] Pagination for large libraries
 - [ ] Book cover images
 - [ ] User-specific libraries (multi-tenant)
 - [ ] REST API endpoints

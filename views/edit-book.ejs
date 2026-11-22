@@ -18,6 +18,7 @@
                 <% } %>
 
                 <form action="/edit/<%= book.id %>" method="POST" novalidate>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="mb-3">
                         <label for="ad" class="form-label">
                             <i class="bi bi-book"></i> Kitap Adı <span class="text-danger">*</span>
@@ -69,15 +70,9 @@
                             required
                         >
                             <option value="">Tür seçiniz...</option>
-                            <option value="Roman" <%= book.tur === 'Roman' ? 'selected' : '' %>>Roman</option>
-                            <option value="Bilim Kurgu" <%= book.tur === 'Bilim Kurgu' ? 'selected' : '' %>>Bilim Kurgu</option>
-                            <option value="Fantastik" <%= book.tur === 'Fantastik' ? 'selected' : '' %>>Fantastik</option>
-                            <option value="Biyografi" <%= book.tur === 'Biyografi' ? 'selected' : '' %>>Biyografi</option>
-                            <option value="Tarih" <%= book.tur === 'Tarih' ? 'selected' : '' %>>Tarih</option>
-                            <option value="Felsefe" <%= book.tur === 'Felsefe' ? 'selected' : '' %>>Felsefe</option>
-                            <option value="Kişisel Gelişim" <%= book.tur === 'Kişisel Gelişim' ? 'selected' : '' %>>Kişisel Gelişim</option>
-                            <option value="Çocuk Kitabı" <%= book.tur === 'Çocuk Kitabı' ? 'selected' : '' %>>Çocuk Kitabı</option>
-                            <option value="Diğer" <%= book.tur === 'Diğer' ? 'selected' : '' %>>Diğer</option>
+                            <% turler.forEach(function (secenek) { %>
+                                <option value="<%= secenek %>" <%= book.tur === secenek ? 'selected' : '' %>><%= secenek %></option>
+                            <% }); %>
                         </select>
                         <div class="invalid-feedback">
                             Lütfen bir tür seçiniz.
@@ -106,7 +101,7 @@
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="/" class="btn btn-secondary btn-lg">
+                        <a href="/books" class="btn btn-secondary btn-lg">
                             <i class="bi bi-arrow-left-circle"></i> Vazgeç
                         </a>
                         <button type="submit" class="btn btn-warning btn-lg">
@@ -120,7 +115,6 @@
 </div>
 
 <script>
-    // HTML5 form validasyonu
     (function() {
         'use strict';
         const forms = document.querySelectorAll('form[novalidate]');

@@ -8,12 +8,25 @@
                     <i class="bi bi-exclamation-triangle text-danger" style="font-size: 5rem;"></i>
                 </div>
                 
-                <h1 class="display-1 fw-bold text-danger mb-3">404</h1>
+                <% const kod = typeof statusCode !== 'undefined' ? Number(statusCode) : 404; %>
+                <% const aciklama = kod === 403
+                    ? 'Bu işlem güvenlik nedeniyle reddedildi'
+                    : kod === 500
+                        ? 'Beklenmeyen bir sunucu hatası oluştu'
+                        : 'Aradığınız sayfa bulunamadı'; %>
+
+                <h1 class="display-1 fw-bold text-danger mb-3"><%= kod %></h1>
                 
-                <h2 class="mb-4">Aradığınız sayfa bulunamadı</h2>
+                <h2 class="mb-4"><%= aciklama %></h2>
                 
                 <p class="lead text-muted mb-4">
-                    Üzgünüz, aradığınız sayfa mevcut değil veya taşınmış olabilir.
+                    <% if (kod === 403) { %>
+                        Formun süresi dolmuş olabilir. Sayfayı yenileyip yeniden deneyin.
+                    <% } else if (kod === 500) { %>
+                        Lütfen kısa bir süre sonra tekrar deneyin.
+                    <% } else { %>
+                        Üzgünüz, aradığınız sayfa mevcut değil veya taşınmış olabilir.
+                    <% } %>
                 </p>
                 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center">
